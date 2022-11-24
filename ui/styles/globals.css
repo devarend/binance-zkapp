@@ -11,6 +11,10 @@ a {
   text-decoration: none;
 }
 
+a {
+  color: blue;
+}
+
 * {
   box-sizing: border-box;
 }
