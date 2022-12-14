@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -12,7 +16,7 @@ a {
 }
 
 a {
-  color: blue;
+  font-weight: bold;
 }
 
 * {

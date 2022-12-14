@@ -2,7 +2,7 @@ import {
     fetchAccount,
     PublicKey,
     PrivateKey,
-    Field,
+    Field, Signature,
 } from 'snarkyjs'
 
 import type { ZkappWorkerRequest, ZkappWorkerReponse, WorkerFunctions } from './zkappWorker';
@@ -41,8 +41,8 @@ export default class ZkappWorkerClient {
         return Field.fromJSON(JSON.parse(result as string));
     }
 
-    createUpdateTransaction() {
-        return this._call('createUpdateTransaction', {});
+    createUpdateTransaction(id: Field, bnbBalance: Field, signature: Signature) {
+        return this._call('createUpdateTransaction', {id, bnbBalance, signature});
     }
 
     proveUpdateTransaction() {

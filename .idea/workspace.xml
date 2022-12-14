@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="56d86314-d14f-48e1-8aa3-634f84cec6b4" name="Changes" comment="">
+    <list default="true" id="56d86314-d14f-48e1-8aa3-634f84cec6b4" name="Changes" comment="readme">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/src/Add.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/src/Add.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/src/Add.ts" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/src/Add.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/ui/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/pages/_app.page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/ui/pages/_app.page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/pages/reactCOIServiceWorker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ui/pages/reactCOIServiceWorker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/pages/zkappWorker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ui/pages/zkappWorker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/pages/zkappWorkerClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ui/pages/zkappWorkerClient.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/ui/styles/globals.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,16 +30,19 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/ui/styles/globals.css" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ui/pages/zkappWorker.ts" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/contracts/src/index.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/contracts/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ui/pages/reactCOIServiceWorker.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/contracts/.github/workflows/ci.yml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ui/styles/globals.css" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ui/pages/zkappWorkerClient.ts" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ui/pages/_app.page.tsx" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ui/pages/api/hello.ts" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ui/package.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ui/pages/index.page.tsx" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ui/.gitignore" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ui/pages/reactCOIServiceWorker.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/contracts/src/interact.ts" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/contracts/src/Add.ts" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -45,12 +57,66 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ui/components/icons" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/contracts/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="ts.external.directory.path" value="$PROJECT_DIR$/contracts/node_modules/typescript/lib" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/ui/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ui/components/icons" />
+      <recent name="$PROJECT_DIR$/ui/public" />
+      <recent name="$PROJECT_DIR$/ui/pages" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ui/components/modal" />
+      <recent name="$PROJECT_DIR$/ui/components/button" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.dev">
+    <configuration name="Add" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/contracts/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/contracts" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/contracts/src/Add.test.ts" />
+      <test-names>
+        <test-name value="Add" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/ui/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/contracts/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.test" />
+        <item itemvalue="Jest.Add" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -62,11 +128,41 @@
       <updated>1669329193628</updated>
       <workItem from="1669329195386" duration="18000" />
       <workItem from="1669329290839" duration="6000" />
-      <workItem from="1669329532863" duration="1161000" />
+      <workItem from="1669329532863" duration="5228000" />
+      <workItem from="1669384422208" duration="336000" />
+      <workItem from="1669384960898" duration="4952000" />
+      <workItem from="1669638529869" duration="82000" />
+      <workItem from="1669752515391" duration="2374000" />
+      <workItem from="1670021307366" duration="3070000" />
+      <workItem from="1670353480064" duration="1692000" />
+      <workItem from="1670790389936" duration="11217000" />
     </task>
+    <task id="LOCAL-00001" summary="readme">
+      <created>1669331162231</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1669331162231</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="readme" />
   </component>
 </project>

@@ -58,7 +58,7 @@ describe('Add', () => {
   it('generates and deploys the `Add` smart contract', async () => {
     await localDeploy();
     const num = zkApp.num.get();
-    expect(num).toEqual(Field(1));
+    expect(num).toEqual(Field(2));
   });
 
   it('correctly updates the num state on the `Add` smart contract', async () => {
@@ -72,6 +72,6 @@ describe('Add', () => {
     await txn.send();
 
     const updatedNum = zkApp.num.get();
-    expect(updatedNum).toEqual(Field(3));
+    expect(updatedNum).toEqual(Field(4));
   });
 });

@@ -1,16 +1,14 @@
 import '../styles/globals.css'
 import { useEffect, useState } from "react";
 import './reactCOIServiceWorker';
+
 import ZkappWorkerClient from './zkappWorkerClient';
+
 import {
   PublicKey,
   PrivateKey,
-  Field, Signature,
+  Field,
 } from 'snarkyjs'
-import Button from "../components/button/Button";
-import CTAModal from "../components/modal/CTAModal";
-import Spinner from "../components/icons/Spinner";
-import axios from "axios";
 
 let transactionFee = 0.1;
 
@@ -109,13 +107,13 @@ export default function App() {
   // -------------------------------------------------------
   // Send a transaction
 
-  const onSendTransaction = async (id: Field, bnbBalance: Field, signature: Signature) => {
+  const onSendTransaction = async () => {
     setState({ ...state, creatingTransaction: true });
     console.log('sending a transaction...');
 
     await state.zkappWorkerClient!.fetchAccount({ publicKey: state.publicKey! });
 
-    await state.zkappWorkerClient!.createUpdateTransaction(id, bnbBalance, signature);
+    await state.zkappWorkerClient!.createUpdateTransaction();
 
     console.log('creating proof...');
     await state.zkappWorkerClient!.proveUpdateTransaction();
@@ -164,77 +162,27 @@ export default function App() {
   let setupText = state.hasBeenSetup ? 'SnarkyJS Ready' : 'Setting up SnarkyJS...';
   let setup = <div> { setupText } { hasWallet }</div>
 
-  // let accountDoesNotExist;
-  // if (state.hasBeenSetup && !state.accountExists) {
-  //   const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
-  //   accountDoesNotExist = <div>
-  //     Account does not exist. Please visit the faucet to fund this account
-  //     <a href={faucetLink} target="_blank" rel="noreferrer"> [Link] </a>
-  //   </div>
-  // }
-
-  // let mainContent;
-  // if (state.hasBeenSetup && state.accountExists) {
-  //   mainContent = <div>
-  //     <button onClick={onSendTransaction} disabled={state.creatingTransaction}> Send Transaction </button>
-  //     <div> Current Number in zkApp: { state.currentNum!.toString() } </div>
-  //     <button onClick={onRefreshCurrentNum}> Get Latest State </button>
-  //   </div>
-  // }
-
-  const isLoading = !state.hasBeenSetup && state.hasWallet === null
-  const walletNotFound = state.hasWallet != null && !state.hasWallet
-  const accountDoesNotExist = state.hasBeenSetup && !state.accountExists
-  // const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58()
-  const faucetLink = ""
-
-
-  const checkBnbBalance = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/bnb');
-      const {data, signature} = response.data
-      const {id, availableBnbBalance} = data
-      console.log(id, availableBnbBalance, signature)
-      await onSendTransaction(id, availableBnbBalance, signature)
-    } catch (error) {
-      console.error(error);
-    }
+  let accountDoesNotExist;
+  if (state.hasBeenSetup && !state.accountExists) {
+    const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
+    accountDoesNotExist = <div>
+      Account does not exist. Please visit the faucet to fund this account
+      <a href={faucetLink} target="_blank" rel="noreferrer"> [Link] </a>
+    </div>
   }
 
-  return <div className="hero min-h-screen">
-    <div className="bg-primary rounded-lg hero-content text-center">
-      <div className="max-w-md">
-        <h1 className="text-5xl font-bold">Binance zkApp</h1>
-        <p className="mb-5">Mina oracle which connects to the Binance Test API</p>
-        <div className="h-12 mb-2">
-        {isLoading && <div role="status">
-          <h1>Setting up SnarkyJS...</h1>
-          <Spinner/>
-        </div>}
-
-          {state.hasBeenSetup && <h1>✅ SnarkyJS loaded</h1>}
-
-          {walletNotFound && <div className="bg-black"><h1 className="text-white p-2">Could not find a wallet. Install <a href="https://www.aurowallet.com/" target="_blank" rel="noreferrer">Auro wallet</a></h1></div>}
-
-        </div>
-        <CTAModal id={'balance-check'} title="Check BNB balance"
-                  description="Connect to the Binance oracle and make sure that the BNB balance is at least 1000 or more."
-                  buttonText={'Create proof'} onClick={checkBnbBalance}/>
-        <CTAModal id={'trader-check'} title="Check if you are a trader"
-                  description="Connect to the Binance oracle and make sure that the BNB balance is at least 1000 or more."
-                  buttonText={'Create proof'} onClick={() => console.log(1)}/>
-        <CTAModal id={'create-trades'} title="Create trades"
-                  description="Connect to the Binance oracle and make sure that the BNB balance is at least 1000 or more."
-                  buttonText={'Create proof'} onClick={() => console.log(1)}/>
-        <div className="flex flex-col">
-          <Button type="label" htmlFor="balance-check">Balance check</Button>
-          <Button type="label" htmlFor="trader-check">Trader check</Button>
-          <div className="divider">OR</div>
-          <Button type="label" htmlFor="create-trades">Create trades</Button>
-        </div>
-        {accountDoesNotExist && <div className="bg-black"><h1 className="text-white p-2"><a href={faucetLink} target="_blank" rel="noreferrer">Faucet</a></h1></div>}
-      </div>
+  let mainContent;
+  if (state.hasBeenSetup && state.accountExists) {
+    mainContent = <div>
+      <button onClick={onSendTransaction} disabled={state.creatingTransaction}> Send Transaction </button>
+      <div> Current Number in zkApp: { state.currentNum!.toString() } </div>
+      <button onClick={onRefreshCurrentNum}> Get Latest State </button>
     </div>
-  </div>
+  }
 
+  return <div>
+    { setup }
+    { accountDoesNotExist }
+    { mainContent }
+  </div>
 }

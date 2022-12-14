@@ -4,7 +4,7 @@ import {
     PublicKey,
     PrivateKey,
     Field,
-    fetchAccount,
+    fetchAccount, Signature,
 } from 'snarkyjs'
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
@@ -47,18 +47,23 @@ const functions = {
         state.zkapp = new state.Add!(publicKey);
     },
     getNum: async (args: {}) => {
-        const currentNum = await state.zkapp!.num.get();
+        const currentNum = await state.zkapp!.verifiedNum.get();
         return JSON.stringify(currentNum.toJSON());
     },
-    createUpdateTransaction: async (args: {}) => {
+    createUpdateTransaction: async (args: {id: Field, bnbBalance: Field, signature: Signature}) => {
+        const {id, bnbBalance, signature} = args
         const transaction = await Mina.transaction(() => {
-                state.zkapp!.update();
+                state.zkapp!.verify(id, bnbBalance, signature);
             }
         );
         state.transaction = transaction;
     },
     proveUpdateTransaction: async (args: {}) => {
-        await state.transaction!.prove();
+        try {
+            await state.transaction!.prove();
+        } catch (e) {
+            console.log(e)
+        }
     },
     getTransactionJSON: async (args: {}) => {
         return state.transaction!.toJSON();
