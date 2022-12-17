@@ -4,7 +4,7 @@
   <br>
 </h1>
 
-<h4 align="center">Binance zkApp which uses an oracle from Binance Test API</h4>
+<h4 align="center">Binance zkApp which uses an oracle from Binance Test API, oracle can be found <a href="https://github.com/devarend/binance-oracle" target="_blank">here</a></h4>
 
 ![screenshot](https://user-images.githubusercontent.com/116919663/208222357-ce746467-7bb2-4760-bb1c-140b9a0ce731.png)
 
