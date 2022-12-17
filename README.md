@@ -8,6 +8,9 @@
 
 ![screenshot](https://user-images.githubusercontent.com/116919663/208222357-ce746467-7bb2-4760-bb1c-140b9a0ce731.png)
 
+## Demo
+The zkApp demo can be found <a href="https://binance-zkapp.vercel.app/" target="_blank">here</a>
+
 ## Key Features
 
 * BNB balance check which checks if your balance is at least 1000 BNB.
