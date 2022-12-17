@@ -1,7 +1,6 @@
 import {
     fetchAccount,
     PublicKey,
-    PrivateKey,
     Field, Signature,
 } from 'snarkyjs'
 
@@ -32,17 +31,22 @@ export default class ZkappWorkerClient {
         return (result as ReturnType<typeof fetchAccount>);
     }
 
-    initZkappInstance(publicKey: PublicKey) {
-        return this._call('initZkappInstance', { publicKey58: publicKey.toBase58() });
+    initZkappInstance(publicKeyBalance: PublicKey, publicKeyTrader: PublicKey) {
+        return this._call('initZkappInstance', { publicKeyBalance: publicKeyBalance.toBase58(), publicKeyTrader: publicKeyTrader.toBase58() });
     }
 
-    async getNum(): Promise<Field> {
-        const result = await this._call('getNum', {});
+    async getVerifiedBalanceNum(): Promise<Field> {
+        const result = await this._call('getVerifiedBalanceNum', {});
         return Field.fromJSON(JSON.parse(result as string));
     }
 
-    createUpdateTransaction(id: Field, bnbBalance: Field, signature: Signature) {
-        return this._call('createUpdateTransaction', {id, bnbBalance, signature});
+    async getVerifiedTraderNum(): Promise<Field> {
+        const result = await this._call('getVerifiedTraderNum', {});
+        return Field.fromJSON(JSON.parse(result as string));
+    }
+
+    createUpdateTransaction(contract: "Balance" | "Trader", id: Field, data: Field, signature: Signature) {
+        return this._call('createUpdateTransaction', {contract, id, data, signature});
     }
 
     proveUpdateTransaction() {
@@ -68,6 +72,7 @@ export default class ZkappWorkerClient {
         this.nextId = 0;
 
         this.worker.onmessage = (event: MessageEvent<ZkappWorkerReponse>) => {
+            if (event.data.error) return this.promises[event.data.id].reject("error");
             this.promises[event.data.id].resolve(event.data.data);
             delete this.promises[event.data.id];
         };
