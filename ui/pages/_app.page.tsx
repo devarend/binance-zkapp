@@ -202,7 +202,7 @@ export default function App() {
 
         setIsCreatingProof(true)
         try {
-            const response = await axios.get(`http://localhost:3001/${endpoint}`);
+            const response = await axios.get(`https://binance-oracle-3mgae.ondigitalocean.app/${endpoint}`);
             const {data, signature} = response.data
             const {id} = data
             const hash = await onSendTransaction(contract, id, data[field], signature)
@@ -228,7 +228,7 @@ export default function App() {
     const createTrades = async () => {
         setIsCreatingTrades(true)
         try {
-            await axios.post('http://localhost:3001/createTrades');
+            await axios.post('https://binance-oracle-3mgae.ondigitalocean.app/createTrades');
         } catch (error) {
         }
         setIsCreatingTrades(false)
