@@ -13,9 +13,9 @@ import {
 
 // The public key of our trusted data provider
 const ORACLE_PUBLIC_KEY =
-  'B62qoAE4rBRuTgC42vqvEyUqCGhaZsW58SKVW4Ht8aYqP9UTvxFWBgy';
+  'B62qmjsaQv6wD4aurd8WUouiFkNxcFX2WNY5zrRHK4pXpCB3gZsP87E';
 
-export class Add extends SmartContract {
+export class BalanceContract extends SmartContract {
   @state(PublicKey) oraclePublicKey = State<PublicKey>();
   @state(Field) verifiedNum = State<Field>();
 
@@ -23,7 +23,7 @@ export class Add extends SmartContract {
     super.init(zkappKey);
     this.verifiedNum.set(Field(0));
     this.oraclePublicKey.set(PublicKey.fromBase58(ORACLE_PUBLIC_KEY));
-    this.requireSignature();
+    // this.requireSignature();
   }
 
   deploy(args: DeployArgs) {
@@ -34,24 +34,15 @@ export class Add extends SmartContract {
     });
   }
 
-  @method update() {
-    const currentState = this.verifiedNum.get();
-    this.verifiedNum.assertEquals(currentState);
-    const newState = currentState.add(2);
-    this.verifiedNum.set(newState);
-  }
-
   @method verify(id: Field, bnbBalance: Field, signature: Signature) {
     const oraclePublicKey = this.oraclePublicKey.get();
-    const currentState = this.verifiedNum.get();
-
-    this.verifiedNum.assertEquals(currentState);
     this.oraclePublicKey.assertEquals(oraclePublicKey);
-
     const validSignature = signature.verify(oraclePublicKey, [id, bnbBalance]);
     validSignature.assertTrue();
     bnbBalance.assertGte(Field(1000));
 
+    const currentState = this.verifiedNum.get();
+    this.verifiedNum.assertEquals(currentState);
     const newState = currentState.add(1);
     this.verifiedNum.set(newState);
   }

@@ -1,3 +1,4 @@
-import { Add } from './Add.js';
+import { BalanceContract } from './BalanceContract.js';
+import { TraderContract } from './TraderContract.js';
 
-export { Add };
+export { BalanceContract, TraderContract };
