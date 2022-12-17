@@ -2,7 +2,6 @@ import {
     Mina,
     isReady,
     PublicKey,
-    PrivateKey,
     Field,
     fetchAccount, Signature,
 } from 'snarkyjs'
@@ -11,11 +10,14 @@ type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 
 // ---------------------------------------------------------------------------------------
 
-import type { Add } from '../../contracts/src/Add';
+import type {BalanceContract} from '../../contracts/src/BalanceContract';
+import type {TraderContract} from '../../contracts/src/TraderContract';
 
 const state = {
-    Add: null as null | typeof Add,
-    zkapp: null as null | Add,
+    BalanceContract: null as null | typeof BalanceContract,
+    TraderContract: null as null | typeof TraderContract,
+    balancezkapp: null as null | BalanceContract,
+    traderzkapp: null as null | TraderContract,
     transaction: null as null | Transaction,
 }
 
@@ -32,38 +34,46 @@ const functions = {
         Mina.setActiveInstance(Berkeley);
     },
     loadContract: async (args: {}) => {
-        const { Add } = await import('../../contracts/build/src/Add.js');
-        state.Add = Add;
+        const {BalanceContract} = await import('../../contracts/build/src/BalanceContract.js');
+        const {TraderContract} = await import('../../contracts/build/src/TraderContract.js');
+        state.BalanceContract = BalanceContract;
+        state.TraderContract = TraderContract;
+
     },
     compileContract: async (args: {}) => {
-        await state.Add!.compile();
+        await state.BalanceContract!.compile();
+        await state.TraderContract!.compile();
     },
     fetchAccount: async (args: { publicKey58: string }) => {
         const publicKey = PublicKey.fromBase58(args.publicKey58);
-        return await fetchAccount({ publicKey });
+        return await fetchAccount({publicKey});
     },
-    initZkappInstance: async (args: { publicKey58: string }) => {
-        const publicKey = PublicKey.fromBase58(args.publicKey58);
-        state.zkapp = new state.Add!(publicKey);
+    initZkappInstance: async (args: { publicKeyBalance: string, publicKeyTrader: string }) => {
+        const balanceKey = PublicKey.fromBase58(args.publicKeyBalance);
+        const traderKey = PublicKey.fromBase58(args.publicKeyTrader);
+        state.balancezkapp = new state.BalanceContract!(balanceKey);
+        state.traderzkapp = new state.TraderContract!(traderKey);
     },
-    getNum: async (args: {}) => {
-        const currentNum = await state.zkapp!.verifiedNum.get();
+    getVerifiedBalanceNum: async (args: {}) => {
+        const currentNum = await state.balancezkapp!.verifiedNum.get();
         return JSON.stringify(currentNum.toJSON());
     },
-    createUpdateTransaction: async (args: {id: Field, bnbBalance: Field, signature: Signature}) => {
-        const {id, bnbBalance, signature} = args
+    getVerifiedTraderNum: async (args: {}) => {
+        const currentNum = await state.traderzkapp!.verifiedNum.get();
+        return JSON.stringify(currentNum.toJSON());
+    },
+    createUpdateTransaction: async (args: { contract: "Balance" | "Trader", id: Field, data: Field, signature: Signature }) => {
+        const {contract, id, data, signature} = args
+        console.log({id, data, signature})
+        console.log(contract)
         const transaction = await Mina.transaction(() => {
-                state.zkapp!.verify(id, bnbBalance, signature);
+                contract === "Balance" ? state.balancezkapp!.verify(Field(id), Field(data), Signature.fromJSON(signature)) : state.traderzkapp!.verify(Field(id), Field(data), Signature.fromJSON(signature));
             }
         );
         state.transaction = transaction;
     },
     proveUpdateTransaction: async (args: {}) => {
-        try {
-            await state.transaction!.prove();
-        } catch (e) {
-            console.log(e)
-        }
+        await state.transaction!.prove();
     },
     getTransactionJSON: async (args: {}) => {
         return state.transaction!.toJSON();
@@ -86,12 +96,19 @@ export type ZkappWorkerReponse = {
 }
 if (process.browser) {
     addEventListener('message', async (event: MessageEvent<ZkappWorkerRequest>) => {
-        const returnData = await functions[event.data.fn](event.data.args);
-
-        const message: ZkappWorkerReponse = {
-            id: event.data.id,
-            data: returnData,
+        try {
+            const returnData = await functions[event.data.fn](event.data.args);
+            const message: ZkappWorkerReponse = {
+                id: event.data.id,
+                data: returnData,
+            }
+            postMessage(message)
+        } catch (e) {
+            console.log(e)
+            postMessage({
+                id: event.data.id,
+                error: true
+            })
         }
-        postMessage(message)
     });
 }
