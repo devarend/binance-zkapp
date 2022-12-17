@@ -4,7 +4,7 @@ import {
     Field, Signature,
 } from 'snarkyjs'
 
-import type { ZkappWorkerRequest, ZkappWorkerReponse, WorkerFunctions } from './zkappWorker';
+import type {ZkappWorkerRequest, ZkappWorkerReponse, WorkerFunctions} from './zkappWorker';
 
 export default class ZkappWorkerClient {
 
@@ -26,13 +26,16 @@ export default class ZkappWorkerClient {
         return this._call('compileContract', {});
     }
 
-    fetchAccount({ publicKey }: { publicKey: PublicKey }): ReturnType<typeof fetchAccount> {
-        const result = this._call('fetchAccount', { publicKey58: publicKey.toBase58() });
+    fetchAccount({publicKey}: { publicKey: PublicKey }): ReturnType<typeof fetchAccount> {
+        const result = this._call('fetchAccount', {publicKey58: publicKey.toBase58()});
         return (result as ReturnType<typeof fetchAccount>);
     }
 
     initZkappInstance(publicKeyBalance: PublicKey, publicKeyTrader: PublicKey) {
-        return this._call('initZkappInstance', { publicKeyBalance: publicKeyBalance.toBase58(), publicKeyTrader: publicKeyTrader.toBase58() });
+        return this._call('initZkappInstance', {
+            publicKeyBalance: publicKeyBalance.toBase58(),
+            publicKeyTrader: publicKeyTrader.toBase58()
+        });
     }
 
     async getVerifiedBalanceNum(): Promise<Field> {
@@ -71,7 +74,7 @@ export default class ZkappWorkerClient {
         this.promises = {};
         this.nextId = 0;
 
-        this.worker.onmessage = (event: MessageEvent<ZkappWorkerReponse>) => {
+        this.worker.onmessage = (event: MessageEvent<any>) => {
             if (event.data.error) return this.promises[event.data.id].reject("error");
             this.promises[event.data.id].resolve(event.data.data);
             delete this.promises[event.data.id];
@@ -80,7 +83,7 @@ export default class ZkappWorkerClient {
 
     _call(fn: WorkerFunctions, args: any) {
         return new Promise((resolve, reject) => {
-            this.promises[this.nextId] = { resolve, reject }
+            this.promises[this.nextId] = {resolve, reject}
 
             const message: ZkappWorkerRequest = {
                 id: this.nextId,
