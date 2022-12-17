@@ -1,6 +1,6 @@
-# Mina zkApp: 04 Zkapp Browser Ui
+# Binance zkapp smart contracts
 
-This template uses TypeScript.
+Smart contracts which checks signatures from the Binance Oracle and updates the on-chain values
 
 ## How to build
 
