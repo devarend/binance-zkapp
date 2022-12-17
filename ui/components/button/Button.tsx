@@ -1,18 +1,18 @@
 import {FC, PropsWithChildren} from "react";
 
-const Button: FC<PropsWithChildren<ButtonProps>> = ({type = "button", htmlFor, isLoading = false, className = '',  children}) => {
+const Button: FC<PropsWithChildren<ButtonProps>> = ({isLoading = false, onClick, className = '', children}) => {
     const loadingClassName = isLoading ? 'loading' : null
-    if (type === 'label') return <label htmlFor={htmlFor} className="btn my-1">{children}</label>
     return (
-        <button className={`btn ${loadingClassName} ${className}`}>{isLoading ? 'Loading...' : children}</button>
+        <button onClick={onClick}
+                className={`btn my-1 ${loadingClassName} ${className}`}>{isLoading ? 'Loading...' : children}</button>
     )
 }
 
 interface ButtonProps {
-    htmlFor?: string
-    type?: 'button' | 'label'
     isLoading?: boolean,
-    className?: string
+    className?: string,
+
+    onClick?(): void
 }
 
 export default Button
