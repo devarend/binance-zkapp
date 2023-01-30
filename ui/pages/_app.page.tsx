@@ -16,7 +16,7 @@ let transactionFee = 0.1;
 
 export default function App() {
 
-    let [state, setState] = useState({
+    const [state, setState] = useState({
         zkappWorkerClient: null as null | ZkappWorkerClient,
         hasWallet: null as null | boolean,
         hasBeenSetup: false,
@@ -29,7 +29,6 @@ export default function App() {
 
     const [isCreatingProof, setIsCreatingProof] = useState(false)
     const [isCreatingTrades, setIsCreatingTrades] = useState(false)
-
     const [modal, setModal] = useState({
         title: '',
         description: '',
@@ -38,14 +37,12 @@ export default function App() {
         }
     })
     const [isModalVisible, setIsModalVisible] = useState(false)
-
     const [transactionModal, setTransactionModal] = useState({
         title: '',
         description: '',
         hash: '',
         error: '',
     })
-
     const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false)
     // -------------------------------------------------------
     // Do Setup
